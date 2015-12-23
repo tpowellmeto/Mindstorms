@@ -7,10 +7,10 @@ class LabbyBot:
 
     def __init__(self, **kwargs):
         BrickPiSetup()
-        self.leftTrack = ev3.Track(kwargs['leftTrackPort'])
-        self.rightTrack = ev3.Track(kwargs['rightTrackPort'])
-        self.biTrack = ev3.BiTrack(self.leftTrack, self.rightTrack)
-        self.irSensor = ev3.IRSensor(kwargs['irSensorPort'])
+        self.leftTrack = ev3.Track.Track(kwargs['leftTrackPort'])
+        self.rightTrack = ev3.Track.Track(kwargs['rightTrackPort'])
+        self.biTrack = ev3.BiTrack.BiTrack(self.leftTrack, self.rightTrack)
+        self.irSensor = ev3.InfraredSensor.IRSensor(kwargs['irSensorPort'])
         BrickPiSetupSensors()
 
     def bringToLife(self):
