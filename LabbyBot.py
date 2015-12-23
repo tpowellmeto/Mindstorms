@@ -6,7 +6,7 @@ from EV3peripherals.BiTrack import BiTrack
 from EV3peripherals.InfraredSensor import IRSensor
 
 class LabbyBot:
-
+    speed = 300
     def __init__(self, **kwargs):
         BrickPiSetup()
         self.leftTrack = Track(kwargs['leftTrackPort'])
@@ -22,15 +22,22 @@ class LabbyBot:
                 '''
                 maybe move the logic later on
                 '''
+		print ".",
                 if not self.edgeDetected():
-                    self.biTrack.setSpeed(200)
+                    self.biTrack.setSpeed(self.speed)
                 else:
                     self.biTrack.setSpeed(0)
+		    self.biTrack.turn(90)
+                    self.biTrack.setSpeed(self.speed)
             time.sleep(.1)
 
 
-    def edgeDetected(self, limit=15):
-        return self.irSensor.getValue() >= limit
+    def edgeDetected(self, limit=15, nSamples=10):
+	samples = []
+        for i in range(nSamples):
+            BrickPiUpdateValues()
+            samples.append(self.irSensor.getValue() >= limit)
+	return all(samples)
 
 
 if __name__=='__main__':
